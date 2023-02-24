@@ -1,0 +1,16 @@
+{
+    "name": "ferasbbm/transcription",
+    "type": "composer-plugin",
+    "autoload": {
+        "psr-4": {
+            "Ferasbbm\\Transcription\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Feras El-Sharif",
+            "email": "49439225+ferasbbm@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
