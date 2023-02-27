@@ -2,6 +2,7 @@
 
 
 use PHPUnit\Framework\TestCase;
+use Ferasbbm\Transcription\Line;
 use Ferasbbm\Transcription\Transcription;
 
 class TranscriptionTest extends TestCase
@@ -24,11 +25,13 @@ class TranscriptionTest extends TestCase
      * @return void
      * @author <ferasbbm>
      */
-    function it_can_convert_to_an_array_of_lines(): void
+    function it_can_convert_to_an_array_of_line_objects(): void
     {
         $file = __DIR__ . '/stubs/basic-example.vtt';
+        $lines = Transcription::load($file)->lines();
 
-        $this->assertCount(4, Transcription::load($file)->lines());
+        $this->assertCount(2, $lines);
+        $this->assertContainsOnlyInstancesOf(Line::class, $lines);
     }
 
     /**
@@ -42,6 +45,6 @@ class TranscriptionTest extends TestCase
         $transcription = Transcription::load($file);
 
         $this->assertStringNotContainsString('WEBVTT', $transcription);
-        $this->assertCount(4, $transcription->lines());
+        $this->assertCount(2, $transcription->lines());
     }
 }

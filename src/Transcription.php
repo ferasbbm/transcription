@@ -7,6 +7,14 @@ class Transcription
     private array $lines;
 
     /**
+     * @param array $lines
+     */
+    public function __construct(array $lines)
+    {
+        $this->lines = $this->discardIrrelevantLines(array_map('trim', $lines));
+    }
+
+    /**
      * @param $path
      *
      * @return self
@@ -14,10 +22,7 @@ class Transcription
      */
     public static function load($path): self
     {
-        $instance = new static();
-        $instance->lines = $instance->discardIrrelevantLines(file($path));
-
-        return $instance;
+        return new static(file($path));
     }
 
     /**
@@ -28,11 +33,10 @@ class Transcription
      */
     private function discardIrrelevantLines(array $lines): array
     {
-
         return array_values(
             array_filter(
-                array_map('trim', $lines),
-                fn ($line) => $line !== 'WEBVTT' && !is_numeric($line) && $line !== ''
+                $lines,
+                fn ($line) => Line::valid($line)
             )
         );
     }
@@ -43,7 +47,13 @@ class Transcription
      */
     public function lines(): array
     {
-        return $this->lines;
+        $lines = [];
+
+        for ($i = 0; $i < count($this->lines); $i += 2) {
+            $lines [] = new Line($this->lines[ $i ], $this->lines[ $i + 1 ]);
+        }
+
+        return $lines;
     }
 
     /**
