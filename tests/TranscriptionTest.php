@@ -26,7 +26,6 @@ class TranscriptionTest extends TestCase
      */
     function it_load_a_vtt_file_as_a_string(): void
     {
-
         $this->assertStringContainsString('Here is a', $this->transcription);
     }
 
