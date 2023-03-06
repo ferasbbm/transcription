@@ -10,6 +10,17 @@ class Line
     }
 
     /**
+     * @return string
+     * @author <ferasbbm>
+     */
+    public function beginningTimestamp(): string
+    {
+        preg_match('/^\d{2}:(\d{2}:\d{2})\.\d{3}/', $this->timestamp, $matches);
+
+        return $matches[ 1 ];
+    }
+
+    /**
      * @param string $line
      *
      * @return bool
