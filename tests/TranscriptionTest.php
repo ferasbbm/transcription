@@ -7,6 +7,18 @@ use Ferasbbm\Transcription\Transcription;
 
 class TranscriptionTest extends TestCase
 {
+
+    protected Transcription $transcription;
+
+    /**
+     * @return void
+     * @author <ferasbbm>
+     */
+    protected function setUp(): void
+    {
+        $this->transcription = Transcription::load(__DIR__ . '/stubs/basic-example.vtt');
+    }
+
     /**
      * @test
      * @return void
@@ -14,10 +26,8 @@ class TranscriptionTest extends TestCase
      */
     function it_load_a_vtt_file_as_a_string(): void
     {
-        $file = __DIR__ . '/stubs/basic-example.vtt';
-        $transcription = Transcription::load($file);
 
-        $this->assertStringContainsString('Here is a', $transcription);
+        $this->assertStringContainsString('Here is a', $this->transcription);
     }
 
     /**
@@ -27,11 +37,8 @@ class TranscriptionTest extends TestCase
      */
     function it_can_convert_to_an_array_of_line_objects(): void
     {
-        $file = __DIR__ . '/stubs/basic-example.vtt';
-        $lines = Transcription::load($file)->lines();
-
-        $this->assertCount(2, $lines);
-        $this->assertContainsOnlyInstancesOf(Line::class, $lines);
+        $this->assertCount(2, $this->transcription->lines());
+        $this->assertContainsOnlyInstancesOf(Line::class, $this->transcription->lines());
     }
 
     /**
@@ -41,10 +48,7 @@ class TranscriptionTest extends TestCase
      */
     function it_discards_irrelevant_lines(): void
     {
-        $file = __DIR__ . '/stubs/basic-example.vtt';
-        $transcription = Transcription::load($file);
-
-        $this->assertStringNotContainsString('WEBVTT', $transcription);
-        $this->assertCount(2, $transcription->lines());
+        $this->assertStringNotContainsString('WEBVTT', $this->transcription);
+        $this->assertCount(2, $this->transcription->lines());
     }
 }
