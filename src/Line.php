@@ -4,7 +4,7 @@ namespace Ferasbbm\Transcription;
 
 class Line
 {
-    public function __construct(public string $timestamp, public string $body)
+    public function __construct(int $position, string $timestamp, string $body)
     {
         //
     }
@@ -28,6 +28,6 @@ class Line
      */
     public static function valid(string $line): bool
     {
-        return $line !== 'WEBVTT' && !is_numeric($line) && $line !== '';
+        return $line !== 'WEBVTT' && $line !== '';
     }
 }

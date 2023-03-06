@@ -48,8 +48,8 @@ class Transcription
     public function lines(): array
     {
         return array_map(
-            fn ($line) => new Line($line[ 0 ], $line[ 1 ]),
-            array_chunk($this->lines, 2)
+            fn ($line) => new Line(...$line),
+            array_chunk($this->lines, 3)
         );
     }
 
